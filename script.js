@@ -55,3 +55,235 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+// Chatbot functionality
+const chatButton = document.getElementById('chatButton');
+const chatWindow = document.getElementById('chatWindow');
+const chatClose = document.getElementById('chatClose');
+const chatInput = document.getElementById('chatInput');
+const chatSend = document.getElementById('chatSend');
+const chatMessages = document.getElementById('chatMessages');
+
+// Toggle chat window
+chatButton.addEventListener('click', () => {
+    chatWindow.classList.toggle('active');
+});
+
+chatClose.addEventListener('click', () => {
+    chatWindow.classList.remove('active');
+});
+
+// ------------------------------------------------------
+// Chatbot Responses
+// ------------------------------------------------------
+const responses = {
+    experience: "Rohit has 8+ years of experience as a Data Scientist, currently working as Sr. Data Scientist at Teamlease (Client: Deloitte). He has worked on Generative AI, LangGraph, AWS Bedrock, and various ML/AI projects.",
+
+    skills: "Rohit is a Data Scientist specializing in Machine Learning and Generative AI. His core expertise includes building LLM-powered applications with LangChain, LangGraph, and RAG architectures, deploying AI solutions on AWS (Bedrock, S3, EC2), and developing production-ready ML models using Python, TensorFlow, and PyTorch. He's proficient in FastAPI for ML deployment, SQL for data engineering, and modern AI frameworks for creating scalable, intelligent systems.",
+
+    contact: "You can reach Rohit at rohitsaroj29@gmail.com or connect on LinkedIn: https://www.linkedin.com/in/rohitsaroj/. He is also active on Medium with 1.5K+ followers.",
+
+    education: "Rohit holds a PGDBM in Operation Management from NMIMS, Mumbai (2022) and a B.E. in Instrumentation Engineering from Rajiv Gandhi Institute of Technology, Mumbai (2016).",
+
+    current: "Rohit is currently working as Sr. Data Scientist at Teamlease (Client: Deloitte) since August 2025, developing a Generative AI-powered chatbot using LangGraph and Claude 3.5.",
+
+    projects: "Rohit has worked on various projects including RAG-based applications, clinical cohort building with LangGraph, wind energy forecasting models, and CNN-based AI models for turbine analysis.",
+
+    certifications: "Rohit has certifications in Prompt Design in Vertex AI (Google), SQL for Data Science (Great Learning), The Data Science Course 2022 (Udemy), and Generative AI with Langchain (Udemy).",
+
+    about: "Rohit is a Sr. Data Scientist with strong expertise in Generative AI, LLMs, ML engineering, and data-driven solutions. He builds scalable AI systems and has deep experience with AWS, LangGraph, and end-to-end product development.",
+
+    location: "Rohit is currently based in Delhi NCR, India, and has worked across multiple cities including Mumbai, Chennai, and New Delhi throughout his career.",
+
+    personality: "To learn about Rohit's personality and work style, check out his LinkedIn recommendations where colleagues and managers share their experiences working with him: https://www.linkedin.com/in/rohitsaroj/#:~:text=Recommendations,Recommendations",
+
+    greeting: "Hello! I'm Rohit's virtual assistant 🤖. How can I help you today?",
+
+    howAreYou: "I'm doing great, thank you for asking! 😊 I'm here and ready to help you learn more about Rohit. What would you like to know?",
+
+    thanks: "You're welcome! Let me know if you'd like to explore Rohit's experience, projects, skills, or anything else 😊",
+
+    compliment: "Thank you! Rohit appreciates your kind words 😊",
+
+    identity: "I'm a simple rule-based chatbot built to introduce you to Rohit and his work. Ask me anything about him!",
+
+    default: "I'm not sure I fully understood that, but I can help you explore Rohit's experience, skills, education, projects, certifications, and more. What would you like to know?"
+};
+
+
+// ------------------------------------------------------
+// Helper function: checks if message contains any keyword
+// ------------------------------------------------------
+function containsAny(message, keywords) {
+    return keywords.some(k => message.includes(k));
+}
+
+
+// ------------------------------------------------------
+// Main Chatbot Logic
+// ------------------------------------------------------
+function getResponse(message) {
+    const msg = message.toLowerCase();
+
+    // Greetings (check first for pure greetings only)
+    if (/^(hello|hi|hey|greetings|good morning|good evening|whats up|sup)$/i.test(msg.trim())) {
+        return responses.greeting;
+    }
+
+    // Experience (check before other keywords) - includes "professionally"
+    if (containsAny(msg, ['experience', 'exp', 'background', 'career', 'journey', 'professional', 'professionally', 'professinally', 'roles', 'work history'])) {
+        return responses.experience;
+    }
+
+    // Skills
+    if (containsAny(msg, ['skill', 'skills', 'tech', 'technology', 'stack', 'tools', 'expertise', 'knowledge', 'familiar'])) {
+        return responses.skills;
+    }
+
+    // General "How is Rohit" (without specific context)
+    if (msg.includes('how is rohit') && !msg.includes('personally') && !msg.includes('professionally') && !msg.includes('professinally')) {
+        return responses.about;
+    }
+
+    // Personality / Nature / About me (check before general "how")
+    if (containsAny(msg, ['personality', 'personally', 'nature', 'character', 'person', 'how is he', 'what is he like', 'about him', 'recommendation', 'how he is'])) {
+        return responses.personality;
+    }
+
+    // Medium / Followers
+    if (containsAny(msg, ['medium', 'followers', 'following', 'blog', 'articles', 'writes'])) {
+        return responses.contact;
+    }
+
+    // Location / Where is he from
+    if (containsAny(msg, ['where', 'location', 'based', 'from', 'city', 'place', 'live', 'lives'])) {
+        return responses.location;
+    }
+
+    // Connection requests / Phone / Contact number
+    if (containsAny(msg, ['connect me', 'connet', 'introduce', 'meet', 'talk to', 'speak with', 'phone', 'number', 'call', 'whatsapp'])) {
+        return responses.contact;
+    }
+
+    // Contact
+    if (containsAny(msg, ['contact', 'reach', 'email', 'linkedin', 'get in touch', 'message'])) {
+        return responses.contact;
+    }
+
+    // Education
+    if (containsAny(msg, ['education', 'degree', 'study', 'qualification', 'academics', 'college', 'university'])) {
+        return responses.education;
+    }
+
+    // Current role
+    if (containsAny(msg, ['current', 'now', 'doing', 'today', 'role', 'position', 'job'])) {
+        return responses.current;
+    }
+
+    // Projects
+    if (containsAny(msg, ['project', 'projects', 'work on', 'built', 'created', 'developed', 'case study'])) {
+        return responses.projects;
+    }
+
+    // Certifications
+    if (containsAny(msg, ['certificate', 'certification', 'certifications', 'course', 'training'])) {
+        return responses.certifications;
+    }
+
+    // "Who is Rohit" / About / Tell me about
+    if (containsAny(msg, ['who is rohit', 'about rohit', 'tell me about rohit', 'tell me about', 'about'])) {
+        return responses.about;
+    }
+
+    // How are you (asking the bot)
+    if (containsAny(msg, ['how are you', 'how r u', 'how are u', 'hows it going', 'how do you do'])) {
+        return responses.howAreYou;
+    }
+
+    // Bot identity
+    if (containsAny(msg, ['who are you', 'what are you', 'bot', 'assistant'])) {
+        return responses.identity;
+    }
+
+    // Thanks
+    if (containsAny(msg, ['thank', 'thanks', 'thank you'])) {
+        return responses.thanks;
+    }
+
+    // Compliments
+    if (containsAny(msg, ['nice', 'cool', 'wow', 'amazing', 'great', 'awesome'])) {
+        return responses.compliment;
+    }
+
+    // Default fallback
+    return responses.default;
+}
+
+
+function addMessage(content, isUser = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = isUser ? 'user-message' : 'bot-message';
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+
+    // Convert URLs to clickable links
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const contentWithLinks = content.replace(urlRegex, (url) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: #a5b4fc; text-decoration: underline;">${url}</a>`;
+    });
+
+    contentDiv.innerHTML = contentWithLinks;
+
+    messageDiv.appendChild(contentDiv);
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showTypingIndicator() {
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'bot-message';
+    typingDiv.id = 'typing';
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content typing-indicator';
+    contentDiv.innerHTML = '<span></span><span></span><span></span>';
+
+    typingDiv.appendChild(contentDiv);
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const typing = document.getElementById('typing');
+    if (typing) {
+        typing.remove();
+    }
+}
+
+function handleSend() {
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    // Add user message
+    addMessage(message, true);
+    chatInput.value = '';
+
+    // Show typing indicator
+    showTypingIndicator();
+
+    // Simulate bot thinking time
+    setTimeout(() => {
+        removeTypingIndicator();
+        const response = getResponse(message);
+        addMessage(response);
+    }, 800);
+}
+
+chatSend.addEventListener('click', handleSend);
+chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        handleSend();
+    }
+});
