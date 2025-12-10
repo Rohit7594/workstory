@@ -184,6 +184,125 @@ body::after {
     opacity: 1;
 }
 
+/* Scroll Progress Indicator */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--tertiary));
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 10px var(--primary), 0 0 20px rgba(99, 102, 241, 0.5);
+}
+
+/* 3D Tilt Effect Container */
+.tilt-card {
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+}
+
+.tilt-card .tilt-inner {
+    transform: translateZ(30px);
+}
+
+/* Gradient Border Animation */
+.gradient-border {
+    position: relative;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+}
+
+.gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(45deg,
+            var(--primary),
+            var(--secondary),
+            var(--tertiary),
+            var(--primary));
+    background-size: 300% 300%;
+    animation: gradient-rotate 4s ease infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gradient-border:hover::before {
+    opacity: 1;
+}
+
+@keyframes gradient-rotate {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Staggered Animation Delays */
+.fade-in-up:nth-child(1) {
+    transition-delay: 0s;
+}
+
+.fade-in-up:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.fade-in-up:nth-child(3) {
+    transition-delay: 0.2s;
+}
+
+.fade-in-up:nth-child(4) {
+    transition-delay: 0.3s;
+}
+
+.fade-in-up:nth-child(5) {
+    transition-delay: 0.4s;
+}
+
+.fade-in-up:nth-child(6) {
+    transition-delay: 0.5s;
+}
+
+/* Enhanced card hover with inner glow */
+.skill-category::after,
+.contact-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(99, 102, 241, 0.15) 0%,
+            transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.skill-category:hover::after,
+.contact-card:hover::after {
+    opacity: 1;
+}
+
+.skill-category,
+.contact-card {
+    position: relative;
+    overflow: hidden;
+}
+
 h1,
 h2,
 h3,
