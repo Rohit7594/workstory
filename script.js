@@ -360,7 +360,8 @@ async function sendToLLM(userMessage) {
             throw new Error(`Server error: ${response.status}`);
         }
 
-        // Remove typing indicator and create streaming message bubble
+        // Remove typing indicator after a brief human-like "thinking" pause
+        await new Promise(resolve => setTimeout(resolve, 600 + Math.random() * 600));
         removeTypingIndicator();
         const streamDiv = createStreamingMessage();
         let fullResponse = '';
