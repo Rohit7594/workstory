@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ========================================
 
 // *** IMPORTANT: Update this URL after deploying your Cloudflare Worker ***
-const CHAT_API_URL = 'https://rohit-portfolio-chat.YOUR_SUBDOMAIN.workers.dev';
+const CHAT_API_URL = 'https://rohit-portfolio-chat.yashie160.workers.dev';
 
 const chatButton = document.getElementById('chatButton');
 const chatWindow = document.getElementById('chatWindow');
