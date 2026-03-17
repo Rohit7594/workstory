@@ -1087,6 +1087,37 @@ footer {
     }
 }
 
+/* Streaming cursor animation */
+.message-content.streaming::after {
+    content: '▊';
+    color: var(--primary);
+    animation: blink-cursor 0.8s steps(1) infinite;
+    margin-left: 2px;
+    font-weight: bold;
+}
+
+@keyframes blink-cursor {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Error message styling */
+.bot-message .message-content.error {
+    border-color: rgba(239, 68, 68, 0.3);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(168, 85, 247, 0.1) 100%);
+}
+
+/* Disabled input state */
+.chat-input-container input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.chat-input-container button:disabled {
+    cursor: not-allowed;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
     .chatbot-container {
