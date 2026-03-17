@@ -840,6 +840,14 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    padding: 0;
+}
+
+.chat-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .chat-button:hover {
@@ -896,9 +904,12 @@ footer {
     gap: 1rem;
 }
 
-.chat-header-content i {
-    font-size: 1.8rem;
-    color: var(--primary);
+.chat-header-content img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    background-color: var(--bg-light);
 }
 
 .chat-header h4 {
@@ -910,6 +921,19 @@ footer {
 .chat-status {
     font-size: 0.75rem;
     color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.chat-status::before {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
 }
 
 .chat-close {
