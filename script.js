@@ -435,6 +435,22 @@ async function sendToLLM(userMessage) {
             conversationHistory = conversationHistory.slice(-6);
         }
 
+        // --- Log conversation to Google Sheets visually in background ---
+        try {
+            // Append /log to the base URL
+            const logUrl = CHAT_API_URL.replace(/\/$/, '') + '/log';
+            fetch(logUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userMessage: userMessage,
+                    botResponse: fullResponse
+                })
+            }).catch(e => console.error("Logging background error:", e));
+        } catch (e) {
+            console.error("Logging setup error:", e);
+        }
+
     } catch (error) {
         console.error('Chat error:', error);
         removeTypingIndicator();
