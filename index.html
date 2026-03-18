@@ -813,7 +813,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;o
   /* ── Skills word scrub ──────────── */
   var words=document.querySelectorAll('.word');
   ScrollTrigger.create({
-    trigger:'#skills',start:'top 65%',end:'center 20%',scrub:1,
+    trigger:'#skills',start:'top 65%',end:'center 45%',scrub:1,
     onUpdate:function(s){
       var lit=Math.floor(s.progress*words.length);
       words.forEach(function(w,i){w.classList.toggle('lit',i<=lit);});
