@@ -20,11 +20,6 @@ body{background:var(--black);color:var(--white);font-family:var(--fb);font-weigh
 
 /* CURSOR */
 #cd{position:fixed;width:8px;height:8px;background:var(--lime);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s,border-radius .2s;mix-blend-mode:difference}
-#cc{position:fixed;width:40px;height:40px;border:1px solid rgba(200,244,0,.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .35s cubic-bezier(.16,1,.3,1),height .35s cubic-bezier(.16,1,.3,1),background .3s,border-color .3s,border-radius .3s}
-body.ch #cd{width:0;height:0}
-body.ch #cc{width:72px;height:72px;background:rgba(200,244,0,.1);border-color:var(--lime)}
-body.ct #cd{width:0;height:0}
-body.ct #cc{width:64px;height:64px;background:rgba(242,240,235,.14);border-radius:4px;border-color:transparent}
 
 /* LOADER */
 #loader{position:fixed;inset:0;z-index:9999;background:#080808;overflow:hidden}
@@ -240,7 +235,6 @@ body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;o
 <body>
 
 <div id="cd"></div>
-<div id="cc"></div>
 
 <div id="loader">
   <canvas id="gd-canvas"></canvas>
@@ -466,10 +460,9 @@ body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;o
   gsap.registerPlugin(ScrollTrigger);
 
   /* ── Cursor ─────────────────────── */
-  var cd=document.getElementById('cd'),cc=document.getElementById('cc');
-  var mx=0,my=0,rx=0,ry=0;
+  var cd=document.getElementById('cd');
+  var mx=0,my=0;
   document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;gsap.set(cd,{x:mx,y:my});});
-  gsap.ticker.add(function(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;gsap.set(cc,{x:rx,y:ry});});
   var hEls=document.querySelectorAll('a,.exc,.skil,.ci,button');
   hEls.forEach(function(el){
     el.addEventListener('mouseenter',function(){document.body.classList.add('ch');});
