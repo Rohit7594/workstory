@@ -1,0 +1,8 @@
+# Secrets
+.env
+credentials.json
+token.json
+
+# Intermediates
+.tmp/
+skills/
