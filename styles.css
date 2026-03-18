@@ -827,21 +827,34 @@ footer {
 }
 
 .chat-button {
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     border: none;
     color: white;
     font-size: 1.5rem;
     cursor: pointer;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4), 0 0 0 0 rgba(99, 102, 241, 0.4);
+    animation: pulse-button 2s infinite;
     transition: var(--transition-medium);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     padding: 0;
+}
+
+@keyframes pulse-button {
+    0% {
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4), 0 0 0 0 rgba(99, 102, 241, 0.4);
+    }
+    70% {
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4), 0 0 0 15px rgba(99, 102, 241, 0);
+    }
+    100% {
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4), 0 0 0 0 rgba(99, 102, 241, 0);
+    }
 }
 
 .chat-button img {
@@ -852,24 +865,25 @@ footer {
 
 .chat-button:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 30px rgba(99, 102, 241, 0.6);
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.6);
+    animation: none;
 }
 
 .chat-window {
     position: absolute;
-    bottom: 80px;
+    bottom: 90px;
     right: 0;
-    width: 380px;
-    height: 500px;
-    background: linear-gradient(145deg, rgba(17, 25, 40, 0.95) 0%, rgba(3, 0, 20, 0.95) 100%);
-    border-radius: 20px;
+    width: 420px;
+    height: 650px;
+    background: linear-gradient(145deg, rgba(17, 25, 40, 0.85) 0%, rgba(3, 0, 20, 0.95) 100%);
+    border-radius: 24px;
     border: 1px solid var(--border-light);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02), 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(99, 102, 241, 0.2);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     display: none;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .chat-window.active {
@@ -1000,31 +1014,39 @@ footer {
 }
 
 .message-content {
-    max-width: 80%;
-    padding: 0.75rem 1rem;
-    border-radius: 12px;
-    font-size: 0.9rem;
-    line-height: 1.5;
+    max-width: 85%;
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .bot-message .message-content {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
-    border: 1px solid rgba(99, 102, 241, 0.3);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.25);
     color: var(--text-primary);
+    border-radius: 4px 18px 18px 18px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(99, 102, 241, 0.05);
 }
 
 .bot-message .message-content a {
     color: #a5b4fc;
     text-decoration: underline;
     word-break: break-all;
+    transition: color 0.2s ease;
+}
+
+.bot-message .message-content a:hover {
+    color: #fff;
 }
 
 .user-message .message-content {
-    background: var(--primary);
+    background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
     color: white;
+    border-radius: 18px 4px 18px 18px;
 }
 
 .chat-input-container {
@@ -1147,11 +1169,29 @@ footer {
     .chatbot-container {
         bottom: 1rem;
         right: 1rem;
+        z-index: 10000;
     }
 
     .chat-window {
-        width: calc(100vw - 2rem);
-        max-width: 380px;
-        height: 450px;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 100vw;
+        height: 100%;
+        max-width: none;
+        border-radius: 0;
+        border: none;
+        border-top: 1px solid var(--border-light);
+        z-index: 10001; /* Above mobile navigation */
+    }
+
+    /* Add safe-area handling for mobile chat input */
+    .chat-input-container {
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    }
+
+    /* Mobile active toggle button style slightly tweaked */
+    .chatbot-container:has(.chat-window.active) .chat-button {
+        display: none; /* Hide FAB when full screen mobile chat is open */
     }
 }

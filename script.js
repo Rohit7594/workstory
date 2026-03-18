@@ -292,7 +292,10 @@ function addMessage(content, isUser = false) {
     contentDiv.innerHTML = formatted;
     messageDiv.appendChild(contentDiv);
     chatMessages.appendChild(messageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    chatMessages.scrollTo({
+        top: chatMessages.scrollHeight,
+        behavior: 'smooth'
+    });
     return contentDiv;
 }
 
@@ -322,7 +325,10 @@ function showTypingIndicator() {
 
     typingDiv.appendChild(contentDiv);
     chatMessages.appendChild(typingDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    chatMessages.scrollTo({
+        top: chatMessages.scrollHeight,
+        behavior: 'smooth'
+    });
 }
 
 function removeTypingIndicator() {
