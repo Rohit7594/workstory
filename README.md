@@ -71,7 +71,6 @@ When I'm not coding or building AI agents, you'll find me:
 ├── index.html           # Main portfolio HTML structure
 ├── styles.css           # UI styling and animations
 ├── script.js            # Frontend logic and chat streaming implementation
-├── Rohit_CV.pdf         # Downloadable Resume
 └── chat-proxy/          # (Separate deployment) Cloudflare Worker proxy code
 ```
 
