@@ -409,14 +409,14 @@ body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;o
 <section id="contact">
   <div class="clab">005 — Get in Touch</div>
   <div class="ctit" id="ctit">
-    <span class="ctit-line"><a href="/cdn-cgi/l/email-protection#6715080f0e13140615080d555e27000a060e0b4904080a">LET'S</a></span>
-    <span class="ctit-line"><a href="/cdn-cgi/l/email-protection#c7b5a8afaeb3b4a6b5a8adf5fe87a0aaa6aeabe9a4a8aa" class="ghl">WORK</a></span>
-    <span class="ctit-line"><a href="/cdn-cgi/l/email-protection#a6d4c9cecfd2d5c7d4c9cc949fe6c1cbc7cfca88c5c9cb">TOGETHER</a></span>
+    <span class="ctit-line"><a href="mailto:rohitsaroj29@gmail.com">LET'S</a></span>
+    <span class="ctit-line"><a href="mailto:rohitsaroj29@gmail.com" class="ghl">WORK</a></span>
+    <span class="ctit-line"><a href="mailto:rohitsaroj29@gmail.com">TOGETHER</a></span>
   </div>
   <div class="cbot">
     <div>
       <div class="clbl">Direct Links</div>
-      <a href="/cdn-cgi/l/email-protection#780a1710110c0b190a17124a41381f15191114561b1715" class="clnk"><span class="clnkn"><span class="__cf_email__" data-cfemail="790b1611100d0a180b16134b40391e14181015571a1614">[email&#160;protected]</span></span><span class="clnka">↗</span></a>
+      <a href="mailto:rohitsaroj29@gmail.com" class="clnk"><span class="clnkn">rohitsaroj29@gmail.com</span><span class="clnka">↗</span></a>
       <a href="https://www.linkedin.com/in/rohitsaroj/" target="_blank" class="clnk"><span class="clnkn">LinkedIn — rohitsaroj</span><span class="clnka">↗</span></a>
       <a href="https://medium.com/@yash7" target="_blank" class="clnk"><span class="clnkn">Medium — 1.5K+ Followers</span><span class="clnka">↗</span></a>
     </div>
@@ -1209,8 +1209,10 @@ async function sendToLLM(userMessage) {
                     if (data === '[DONE]') break;
                     try {
                         const parsed = JSON.parse(data);
-                        if (parsed.response) {
-                            assistantMessage += parsed.response;
+                        // NVIDIA NIM uses OpenAI-format SSE: choices[0].delta.content
+                        const token = parsed?.choices?.[0]?.delta?.content;
+                        if (token) {
+                            assistantMessage += token;
                             const urlRegex = /(https?:\/\/[^\s]+)/g;
                             const formatted = assistantMessage.replace(urlRegex, (url) => {
                                 return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
