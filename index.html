@@ -458,7 +458,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;o
     </button>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script>
 (function(){
@@ -1191,7 +1191,7 @@ async function sendToLLM(userMessage) {
         const response = await fetch(CHAT_API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: userMessage, history: conversationHistory })
+            body: JSON.stringify({ messages: conversationHistory })
         });
         if (!response.ok) throw new Error('API Error');
         const reader = response.body.getReader();
