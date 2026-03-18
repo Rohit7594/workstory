@@ -426,7 +426,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;o
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
             <div class="chat-header-content">
-                <img src="vanya_avatar.png" alt="Vanya Avatar">
+                <img id="vanyaHeaderAvatar" src="vanya_avatar.png" alt="Vanya Avatar">
                 <div>
                     <h4>Vanya</h4>
                     <span class="chat-status">Online</span>
@@ -451,7 +451,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;o
         </div>
     </div>
     <button class="chat-button" id="chatButton" title="Chat with Vanya">
-        <img src="vanya_avatar.png" alt="Chat with Vanya">
+        <img id="vanyaButtonAvatar" src="vanya_avatar.png" alt="Chat with Vanya">
     </button>
 </div>
 
@@ -1247,6 +1247,67 @@ chatSend.addEventListener('click', handleSend);
 chatInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleSend();
 });
+</script>
+
+<script>
+/* ─── VANYA AVATAR ROTATION (every 4 hours) ─────────────── */
+(function () {
+  const AVATARS = [
+    'vanya_avatar.png',
+    'vanya_avatar2.png',
+    'vanya_avatar3.png',
+    'vanya_avatar4.png',
+    'vanya_avatar5.png',
+    'vanya_avatar6.png',
+    'vanya_avatar7.png'
+  ];
+
+  /**
+   * Returns a deterministic index based on the current UTC time.
+   * The day is split into 6 four-hour windows (0-3, 4-7, 8-11, 12-15, 16-19, 20-23).
+   * With 7 avatars we cycle: window index mod 7.
+   */
+  function getAvatarForNow() {
+    var now = new Date();
+    var utcHour = now.getUTCHours();
+    var windowIndex = Math.floor(utcHour / 4); // 0..5 (six 4-hour windows per day)
+    // Include the UTC date so the index also shifts day to day, giving full rotation
+    var dayOffset = now.getUTCDate();
+    var idx = (windowIndex + dayOffset) % AVATARS.length;
+    return AVATARS[idx];
+  }
+
+  function applyAvatar() {
+    var src = getAvatarForNow();
+    var headerImg = document.getElementById('vanyaHeaderAvatar');
+    var buttonImg = document.getElementById('vanyaButtonAvatar');
+    if (headerImg) headerImg.src = src;
+    if (buttonImg) buttonImg.src = src;
+  }
+
+  // Apply immediately on load
+  applyAvatar();
+
+  // Schedule next switch at the start of the next 4-hour UTC window
+  function scheduleNext() {
+    var now = new Date();
+    var utcHour = now.getUTCHours();
+    var utcMin  = now.getUTCMinutes();
+    var utcSec  = now.getUTCSeconds();
+    var utcMs   = now.getUTCMilliseconds();
+    // Hours until the next 4-hour boundary
+    var hoursIntoWindow = utcHour % 4;
+    var msUntilNext = ((4 - hoursIntoWindow) * 3600 - utcMin * 60 - utcSec) * 1000 - utcMs;
+    if (msUntilNext <= 0) msUntilNext += 4 * 3600 * 1000;
+    setTimeout(function () {
+      applyAvatar();
+      // After the first boundary hit, repeat every 4 hours exactly
+      setInterval(applyAvatar, 4 * 60 * 60 * 1000);
+    }, msUntilNext);
+  }
+
+  scheduleNext();
+})();
 </script>
 </body>
 </html>
