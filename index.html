@@ -151,8 +151,8 @@ nav{position:relative;z-index:10;display:flex;align-items:center;justify-content
 /* Contact title = Barlow 600, matches hero name exactly */
 .ctit{font-family:var(--fb);font-weight:600;text-transform:uppercase;font-size:clamp(64px,13vw,172px);line-height:.88;letter-spacing:-.02em;margin-bottom:80px;overflow:hidden}
 .ctit-line{overflow:hidden;display:block}
-.ctit a{display:block;color:var(--white);text-decoration:none;cursor:none;transition:color .25s;transform:translateY(110%)}
-.ctit a:hover{color:var(--lime)}
+.ctit .c-word{display:block;color:var(--white);transition:color .25s;transform:translateY(110%);cursor:default}
+.ctit .c-word:hover{color:var(--lime)}
 .ctit .ghl{color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.3)}
 .ctit .ghl:hover{-webkit-text-stroke-color:var(--lime)}
 .cbot{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:40px;padding-top:60px;border-top:1px solid rgba(255,255,255,.07)}
@@ -406,9 +406,9 @@ body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;o
 <section id="contact">
   <div class="clab">005 — Get in Touch</div>
   <div class="ctit" id="ctit">
-    <span class="ctit-line">LET'S</span>
-    <span class="ctit-line" class="ghl">WORK</span>
-    <span class="ctit-line">TOGETHER</span>
+    <span class="ctit-line"><span class="c-word">LET'S</span></span>
+    <span class="ctit-line"><span class="c-word ghl">WORK</span></span>
+    <span class="ctit-line"><span class="c-word">TOGETHER</span></span>
   </div>
   <div class="cbot">
     <div>
@@ -862,7 +862,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;o
   var ctIO=new IntersectionObserver(function(e){
     if(e[0].isIntersecting&&!ctDone){
       ctDone=true;
-      gsap.to('#ctit a',{y:0,duration:1,stagger:0.12,ease:'power4.out'});
+      gsap.to('#ctit .c-word',{y:0,duration:1,stagger:0.12,ease:'power4.out'});
       ctIO.disconnect();
     }
   },{threshold:0.15});
