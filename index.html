@@ -1205,7 +1205,6 @@ async function sendToLLM(userMessage) {
                     if (data === '[DONE]') break;
                     try {
                         const parsed = JSON.parse(data);
-                        // NVIDIA NIM uses OpenAI-format SSE: choices[0].delta.content
                         const token = parsed?.choices?.[0]?.delta?.content;
                         if (token) {
                             assistantMessage += token;
@@ -1222,10 +1221,30 @@ async function sendToLLM(userMessage) {
         }
         streamingContent.classList.remove('streaming');
         conversationHistory.push({ role: 'assistant', content: assistantMessage });
+        return assistantMessage;          // return so caller can log it
     } catch (error) {
         console.error('Chat error:', error);
         addMessage("Sorry, I'm having trouble connecting right now. Please try again later.");
+        return null;
     }
+}
+
+// Fire-and-forget conversation logger → Cloudflare Worker /log → Google Sheets
+function logConversation(userMessage, vanyaReply) {
+    if (!vanyaReply) return;   // don't log failed / empty responses
+    const turnNumber = conversationHistory.filter(m => m.role === 'user').length;
+    const payload = {
+        timestamp: new Date().toISOString(),
+        page: window.location.href,
+        turn: turnNumber,
+        userMessage,
+        vanyaReply
+    };
+    fetch(CHAT_API_URL + '/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    }).catch(err => console.warn('Logging failed (non-blocking):', err));
 }
 
 async function handleSend() {
@@ -1237,8 +1256,9 @@ async function handleSend() {
     conversationHistory.push({ role: 'user', content: message });
     addMessage(message, true);
     showTypingIndicator();
-    await sendToLLM(message);
+    const reply = await sendToLLM(message);
     removeTypingIndicator();
+    logConversation(message, reply);   // fire-and-forget, never blocks UI
     isGenerating = false;
     setInputEnabled(true);
 }
