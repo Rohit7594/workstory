@@ -1233,12 +1233,20 @@ async function sendToLLM(userMessage) {
 function logConversation(userMessage, vanyaReply) {
     if (!vanyaReply) return;   // don't log failed / empty responses
     const turnNumber = conversationHistory.filter(m => m.role === 'user').length;
+    // Truncate to avoid Google Sheets cell character limit
+    const reply = vanyaReply.length > 5000 ? vanyaReply.slice(0, 5000) + '…' : vanyaReply;
     const payload = {
         timestamp: new Date().toISOString(),
         page: window.location.href,
         turn: turnNumber,
         userMessage,
-        vanyaReply
+        user: userMessage,
+        // Vanya response — multiple aliases to match whatever field name GAS reads
+        vanyaReply: reply,
+        response: reply,
+        botMessage: reply,
+        assistantMessage: reply,
+        message: reply
     };
     fetch(CHAT_API_URL + '/log', {
         method: 'POST',
