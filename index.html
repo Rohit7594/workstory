@@ -1241,7 +1241,7 @@ function logConversation(userMessage, vanyaReply) {
         turn: turnNumber,
         userMessage,
         user: userMessage,
-        // Vanya response — multiple aliases to match whatever field name GAS reads
+        botResponse: reply,         // ← exact field name the Google Apps Script reads
         vanyaReply: reply,
         response: reply,
         botMessage: reply,
